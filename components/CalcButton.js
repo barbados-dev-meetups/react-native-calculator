@@ -6,7 +6,7 @@ const CalcButton = props =>
     <View
       style={[
         styles.button,
-        { backgroundColor: props.backgroundColor, width: props.long ? 175 : 75 }
+        { backgroundColor: props.backgroundColor, width: props.long ? 158 : 75 }
       ]}
     >
       <Text style={[styles.text, { color: props.color }]}>{props.value}</Text>
