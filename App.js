@@ -18,7 +18,7 @@ export default class App extends React.Component {
       display: '0',
       operation: '',
       slot: '',
-      cursor: 0,
+      cursor: 0
     }
   }
 
@@ -38,7 +38,7 @@ export default class App extends React.Component {
   enterDecimalPoint() {
     if (!this.state.display.includes('.')) {
       if (this.state.cursor == 0) {
-        this.state.display = 0;
+        this.state.display = 0
       }
       this.setState({ display: `${this.state.display}.`, cursor: 1 })
     }
@@ -49,7 +49,7 @@ export default class App extends React.Component {
   }
 
   negate() {
-    this.setState({display: `${(-1 * parseFloat(this.state.display))}` })
+    this.setState({ display: `${-1 * parseFloat(this.state.display)}` })
   }
 
   percentage() {
@@ -106,7 +106,7 @@ export default class App extends React.Component {
           </Row>
           <Row>
             <DarkButton value="0" long onPress={() => this.enterDigit(0)} />
-            <DarkButton value="." onPress={() => this.enterDecimalPoint()}/>
+            <DarkButton value="." onPress={() => this.enterDecimalPoint()} />
             <OrangeButton value="=" onPress={() => this.calculate()} />
           </Row>
         </View>
