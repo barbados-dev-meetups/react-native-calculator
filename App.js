@@ -17,33 +17,39 @@ export default class App extends React.Component {
     this.state = {
       display: '0',
       operation: '',
-      slot: ''
+      slot: '',
+      cursor: 0,
     }
   }
 
   clear() {
-    this.setState({ display: '0' })
+    this.setState({ display: '0', cursor: 0 })
   }
 
   enterDigit(number) {
-    if (this.state.display === '0' || this.state.operation) {
-      this.setState({ display: number })
-    } else {
-      this.setState({ display: `${this.state.display}${number}` })
+    if (this.state.cursor === 0 || this.state.display === '0') {
+      this.state.display = ''
+    }
+    if (this.state.display.length < 7) {
+      this.setState({ display: `${this.state.display}${number}`, cursor: 1 })
+    }
+  }
+
+  enterDecimalPoint() {
+    if (!this.state.display.includes('.')) {
+      if (this.state.cursor == 0) {
+        this.state.display = 0;
+      }
+      this.setState({ display: `${this.state.display}.`, cursor: 1 })
     }
   }
 
   enterOperation(operation) {
-    this.setState({ operation, slot: this.state.display })
+    this.setState({ operation, slot: this.state.display, cursor: 0 })
   }
 
   negate() {
-    const current = parseFloat(this.state.display)
-    if (current > 0) {
-      this.setState({ display: `-${current}` })
-    } else {
-      this.setState({ display: this.state.display.substr(1) })
-    }
+    this.setState({display: `${(-1 * parseFloat(this.state.display))}` })
   }
 
   percentage() {
@@ -52,8 +58,8 @@ export default class App extends React.Component {
   }
 
   calculate() {
-    const num1 = parseFloat(this.state.display)
-    const num2 = parseFloat(this.state.slot)
+    const num1 = parseFloat(this.state.slot)
+    const num2 = parseFloat(this.state.display)
 
     const operations = {
       '+': () => this.setState({ display: `${num1 + num2}` }),
@@ -62,6 +68,7 @@ export default class App extends React.Component {
       '/': () => this.setState({ display: `${num1 / num2}` })
     }
 
+    this.setState({ cursor: 0 })
     operations[this.state.operation]()
   }
 
@@ -99,7 +106,7 @@ export default class App extends React.Component {
           </Row>
           <Row>
             <DarkButton value="0" long onPress={() => this.enterDigit(0)} />
-            <DarkButton value="." />
+            <DarkButton value="." onPress={() => this.enterDecimalPoint()}/>
             <OrangeButton value="=" onPress={() => this.calculate()} />
           </Row>
         </View>
